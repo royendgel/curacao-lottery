@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/royendgel/curacao-lottery.png?branch=master)](https://travis-ci.org/royendgel/curacao-lottery)
+
+
 curacao-lottery
 ===============
 
@@ -9,6 +12,13 @@ This will scrape out all drawings from a local site and store them in a database
 This is for personal use but if you want to use this: 
 * you need to clone this repo
 * use pip install requirments.txt 
-* run the python file from cli
+* Create an empty python file in the same directory 
+
+`import Lottery`
+`lot = Lottery()`
+`res = lot.get_range(start_year=2014, end_year=2014, start_month=01, end_month=01)`
+`print res`
+
+### Trying to use pep8 for best practise(In the new code)
 
 any question : royendgel@gmail.com

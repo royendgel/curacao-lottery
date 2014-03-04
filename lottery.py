@@ -4,40 +4,49 @@ import sqlite3
 from bs4 import BeautifulSoup
 import re
 
-#
+# FIXME The whole code base need to be in a Object oriented way. this code is very old
 # This is an old code that I made with scraperwiki Classic 
-# 
-numbers = []
-numbersnoasali = 0
-test = 0 
-count = 0
-numberasali = 0
-for year in xrange(2002,2013):
-    test = test + 1 
-    print test
-    for month in xrange(1,13):
-        url = "http://www.joeblack-lottery.com/wn.php??GameTypeID=1" + str("&Month=") + str(month) + str("&Year=") + str(year)+ str("&Submit=Go")
-        urlopen = urllib.urlopen(url)
-        resultaten = urlopen.read()
-        data = BeautifulSoup(resultaten)
-        Tabledata = data.find("td")
-        TabledataContents = Tabledata.strings
-        for TabledataContents in TabledataContents:
-            if len(TabledataContents) >= 4:
-                if re.match('\d\d\d\d.',TabledataContents): # I repeated two times I know .... I'm a little lazy 
-                    count = count + 1
-                    prefixf = "wegaresult/resultall.txt"
-                    numbers.append(TabledataContents[:4])
 
-for x in ["%04d" % x for x in range(10000)]:
-    if x not in numbers:
-        numbersnoasali = numbersnoasali + 1 
-        noasali = x
+# BEGIN : New code 03/2014 Object oriented way
+class Lottery(object):
+    def __init__(self):
+        self.range_year = 0
+        self.range_month = 0
 
-for x in ["%04d" % x for x in range(10000)]:
-    if x in numbers:
-        numberasali = numberasali + 1 
-        asali = x
-        kuantu = numbers.count(x)
+    def get_page(self, year, month):
+        page_data_list = []
+        url = "http://www.joeblack-lottery.com/wn.php??GameTypeID=1" + \
+        str("&Month=") + str(month) + str("&Year=") + str(year)+ str("&Submit=Go")
+        page_data = urllib.urlopen(url).read()
+        page = BeautifulSoup(page_data)
+        for data in  page.find("td").strings:
+            page_data_list.append(data)
+        return page_data_list
 
-sqlite3.save(unique_keys=["winning"], data={"winning":numbers})
+    def get_extracted_page(self, year, month):
+        x = self.get_page(year, month)
+        return self.extract_data(x)
+
+    def extract_data(self, data):
+        date_header = 0
+        pos = 0
+        numbers = []
+        for d in data:
+            if re.match('^\d\d\S{8}', d):
+                date_header = re.findall('^\d\d\S{8}', d)[0]
+                pos = 0
+            if len(d) >= 4:
+                if re.match('\d\d\d\d.',d):
+                    pos += 1
+                    date = date_header
+                    numbers.append({'number' : d[:4], 'date' : str(date).replace('.',''), 'pos' : pos})
+        return numbers
+
+    def get_range(self, start_year, end_year, start_month, end_month):
+        data = []
+        for year in xrange(start_year, end_year + 1):
+            for month in xrange(start_month, end_month + 1):
+                data.append(self.get_extracted_page(year, month))
+        return data
+x = Lottery()
+print x.get_range(start_year=2014, end_year=2014, start_month=01, end_month=02)

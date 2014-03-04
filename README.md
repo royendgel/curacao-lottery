@@ -14,10 +14,10 @@ This is for personal use but if you want to use this:
 * use pip install requirments.txt 
 * Create an empty python file in the same directory 
 
-`import Lottery`
-`lot = Lottery()`
-`res = lot.get_range(start_year=2014, end_year=2014, start_month=01, end_month=01)`
-`print res`
+`import Lottery
+lot = Lottery()
+res = lot.get_range(start_year=2014, end_year=2014, start_month=01, end_month=01)
+print res`
 
 ### Trying to use pep8 for best practise(In the new code)
 

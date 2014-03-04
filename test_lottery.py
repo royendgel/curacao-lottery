@@ -3,18 +3,26 @@ from lottery import Lottery
 
 class Lotery(unittest.TestCase):
 
-	# test if there is a word WINNING NUMBERS
+	def find_winning_number(self, number):
+		w = Lottery()
+		x = w.get_extracted_page(2013,12)
+		try:
+			return (drawing for drawing in x if drawing["number"] == number).next()
+		except:
+			return False
+
+	# Make sure the word WINNING NUMBERS exists
 	def test_get_single_page(self):
 		w = Lottery()
 		assert 'WINNING NUMBERS' in w.get_page(2013, 12)
 
-	# Test if in that month a number 7691 was winning number
+	# Should have the number 7691 in that year and month
 	def test_winning_number(self):
-		w = Lottery()
+		assert self.find_winning_number('7691')
 
-# Test if in that month never the number 8888
-	def test_winning_number(self):
-		w = Lottery()
+	# should not have any drawing that matches the number 8888 in that period
+	def test_not_winning_number(self):
+		self.assertFalse(self.find_winning_number('8888'))
 
 if __name__ == "__main__":
     unittest.main()

@@ -20,7 +20,7 @@ class Lottery(object):
         page_data = urllib.urlopen(url).read()
         page = BeautifulSoup(page_data)
         for data in  page.find("td").strings:
-            page_data_list.append(data)
+            page_data_list.append(data.strip())
         return page_data_list
 
     def __connect_db(self):
@@ -42,7 +42,7 @@ class Lottery(object):
                 date_header = re.findall('^\d\d\S{8}', d)[0]
                 pos = 0
             if len(d) >= 4:
-                if re.match('\d\d\d\d.',d):
+                if re.match('\d\d\d\d',d):
                     pos += 1
                     date = date_header
                     numbers.append({'number' : d[:4], 'date' : str(date).replace('.',''), 'pos' : pos})

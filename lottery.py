@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
-import scraperwiki
 import urllib
+import sqlite3
 from bs4 import BeautifulSoup
 import re
 
@@ -41,4 +40,4 @@ for x in ["%04d" % x for x in range(10000)]:
         asali = x
         kuantu = numbers.count(x)
 
-scraperwiki.sqlite.save(unique_keys=["winning"], data={"winning":numbers})
+sqlite3.save(unique_keys=["winning"], data={"winning":numbers})

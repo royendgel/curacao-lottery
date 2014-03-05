@@ -1,7 +1,11 @@
 import unittest
+import os
 from lottery import Lottery
 
 class Lotery(unittest.TestCase):
+
+	def setUp(self):
+		pass
 
 	def find_winning_number(self, number):
 		w = Lottery()
@@ -24,5 +28,7 @@ class Lotery(unittest.TestCase):
 	def test_not_winning_number(self):
 		self.assertFalse(self.find_winning_number('8888'))
 
+	def tearDown(self):
+		pass
 if __name__ == "__main__":
     unittest.main()

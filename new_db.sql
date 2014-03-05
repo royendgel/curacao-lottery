@@ -4,7 +4,7 @@
 
 
 -- Drawings number table
-DROP TABLE IF EXISTS [Categories];
+DROP TABLE IF EXISTS [Drawing];
 CREATE TABLE [Drawing]
 (      [DrawingID] INTEGER PRIMARY KEY AUTOINCREMENT,
        [Date] varchar(10),

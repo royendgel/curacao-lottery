@@ -4,7 +4,7 @@
 curacao-lottery
 ===============
 
-Curacao Lottery drawings analisis
+Curacao Lottery drawings analysis
 
 I moved this code to github from my repo at scraperwiki.
 This will scrape out all drawings from a local(Curaçao) site and store them in a database.
@@ -20,6 +20,12 @@ example :
 	res = lot.get_range(start_year=2014, end_year=2014, start_month=01, end_month=01)
 	print res
 
-### Trying to use pep8 for best practice(In the new code)
+Or from the command line do the following :
+	>>> from lottery import Lottery 
+	>>> x = Lottery(new=True)
+	>>> x.save_extracted_data(x.get_range(2002,2014,01,12))
+
+ISSUES : 
+need to implement formating like %4d for digits that contains leading zero's I had it before in the old code 
 
 any question : royendgel@gmail.com

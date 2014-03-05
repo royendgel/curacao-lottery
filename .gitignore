@@ -3,3 +3,5 @@ env/
 db/
 lottery.db
 .todo
+testdb.db
+*.db

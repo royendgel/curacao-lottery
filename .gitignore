@@ -4,4 +4,4 @@ db/
 lottery.db
 .todo
 testdb.db
-*.db
+app_test_lottery.py

@@ -9,5 +9,5 @@ CREATE TABLE [Drawing]
 (      [DrawingID] INTEGER PRIMARY KEY AUTOINCREMENT,
        [Date] varchar(10),
        [Position] INTEGER,
-       [Drawing] INTEGER
+       [Drawing] varchar(4)
 );

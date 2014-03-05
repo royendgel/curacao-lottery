@@ -37,12 +37,31 @@ class Lottery(object):
         x = self.get_page(year, month)
         return self.extract_data(x)
 
+    def get_number_by_month(self, year, month, number):
+        d = self.get_range(year,year,month,month, number)
+        return self.get_number_by_something(number, d)
+
+    def get_number_by_year(self, year, number='0000'):
+        d = self.get_range(year,year,01,12, number)
+        return self.get_number_by_something(number, d)
+
+    def get_number_by_something(self, number, d):
+        draw_holder = []
+        for n in d[0]:
+            if str(n['number']) == str(number):
+                draw_holder.append(n)
+        if len(draw_holder) <= 0:
+            return False
+        else:
+            return draw_holder
+
     def save_extracted_data(self, data):
         # FIXME NEED TO FIND A GOOD WAY TO STORE THE DATES IN DATABASE
-        for d in data[0]:
-            draw_data = (d['date'], d['pos'], d['number'],)
-            self.connection.cursor().execute("INSERT INTO Drawing(Date, Position, Drawing) VALUES(?, ?, ?)", draw_data)
-            self.connection.commit()
+        for drawing_list in data:
+            for d in drawing_list:
+                draw_data = (d['date'], d['pos'], d['number'],)
+                self.connection.cursor().execute("INSERT INTO Drawing(Date, Position, Drawing) VALUES(?, ?, ?)", draw_data)
+        self.connection.commit()
 
     def get_all_numbers(self):
         c = self.connection.cursor()
@@ -60,7 +79,10 @@ class Lottery(object):
                 if re.match('\d\d\d\d',d):
                     pos += 1
                     date = date_header
-                    numbers.append({'number' : d[:4], 'date' : str(date).replace('.',''), 'pos' : pos})
+                    if date == 0:
+                        pass
+                    else:
+                        numbers.append({'number' : d[:4], 'date' : str(date).replace('.',''), 'pos' : pos})
         return numbers
 
     def get_range(self, start_year, end_year, start_month, end_month, day=None):

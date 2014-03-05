@@ -85,9 +85,50 @@ class Lottery(object):
                         numbers.append({'number' : d[:4], 'date' : str(date).replace('.',''), 'pos' : pos})
         return numbers
 
+    def web_view(self, port=8000):
+        import SimpleHTTPServer
+        import SocketServer
+        PORT = port
+
+        Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+
+        httpd = SocketServer.TCPServer(("", PORT), Handler)
+
+        print "serving at port", PORT
+        httpd.serve_forever()
+
+    def search_number(self, database_file='database/basedb.db', number='0000'):
+        conn = sqlite3.connect(database_file)
+        curs = conn.cursor()
+        number = (number,)
+        for n in curs.execute("SELECT * FROM Drawing WHERE Drawing=?", number):
+            return n
+
+    def generate_numbers(self):
+        print 'Generating numbers....'
+        numbers = []
+        for n in range(10000):
+            numbers.append('%4d' %n)
+        return numbers
+
+    def generate_not_drawn(self):
+        print 'Processing numbers that has not been drawn....'
+        x = self.generate_numbers()
+        not_drawn = []
+        for n in x:
+            d = (n,)
+            c = self.connection.cursor().execute("SELECT * FROM Drawing WHERE Drawing = ?", d).fetchall()
+            if len(c) == 0:
+                not_drawn.append(n)
+        return not_drawn
+
     def get_range(self, start_year, end_year, start_month, end_month, day=None):
         data = []
         for year in xrange(start_year, end_year + 1):
             for month in xrange(start_month, end_month + 1):
                 data.append(self.get_extracted_page(year, month))
         return data
+if __name__ == '__main__':
+    x = raw_input('Enter the number >> ')
+    lot = Lottery()
+    lot.search_number(number=x)

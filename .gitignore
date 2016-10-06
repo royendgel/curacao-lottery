@@ -5,3 +5,4 @@ lottery.db
 .todo
 testdb.db
 app_test_lottery.py
+.idea

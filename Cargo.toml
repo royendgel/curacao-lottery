@@ -1,0 +1,13 @@
+[package]
+name = "curacao-lottery"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+rusqlite = "0.26.1"
+tokio = { version = "1.12.0", features = ["full"] }
+reqwest = "0.11.6"
+scraper = "0.12.0"
+futures = "0.3.17"

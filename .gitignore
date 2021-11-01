@@ -6,3 +6,8 @@ lottery.db
 testdb.db
 app_test_lottery.py
 .idea
+
+# Added by cargo
+
+/target
+
